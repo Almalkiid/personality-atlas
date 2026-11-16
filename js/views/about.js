@@ -22,7 +22,9 @@ export function render(root, ctx) {
     let rerouted = false;
     if (band === '10-13' && instrumentId !== 'ipipneo120') { instrumentId = 'ipipneo120'; rerouted = true; }
     const n = ctx.instruments[instrumentId].items.length;
-    ctx.go('question', { instrumentId, rerouted, profile: { band, sex }, answers: Array(n).fill(null), index: 0 });
+    // Coming back from statement 1 to edit the profile must not wipe answers already given to the same test.
+    const keep = instrumentId === ctx.state.instrumentId && ctx.state.answers?.length === n;
+    ctx.go('question', { instrumentId, rerouted: rerouted || (keep && ctx.state.rerouted), profile: { band, sex }, answers: keep ? ctx.state.answers : Array(n).fill(null), index: keep ? ctx.state.index : 0 });
   } },
     group('age', 'Your age', AGE_OPTIONS, ctx.state.profile.band),
     group('sex', 'Sex', SEX_OPTIONS, ctx.state.profile.sex),

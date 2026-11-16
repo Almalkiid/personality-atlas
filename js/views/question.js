@@ -6,18 +6,37 @@ const ADVANCE_MS = 180;
 export function render(root, ctx) {
   const inst = ctx.instrument;
   const s = ctx.state;
+  const last = inst.items.length - 1;
+  // Auto-advance is tied to the statement that was answered (pendingFrom), never to whatever is current when it fires.
   let timer = null;
+  let pendingFrom = null;
+  const cancel = () => { clearTimeout(timer); timer = null; pendingFrom = null; };
+  const settle = () => { // complete a pending advance immediately (a second key press arrived first)
+    if (pendingFrom === null) return;
+    const from = pendingFrom;
+    cancel();
+    if (from < last) s.index = from + 1;
+  };
 
   const persist = () => ctx.store.save({ instrumentId: inst.id, itemCount: inst.items.length, answers: s.answers, index: s.index, profile: s.profile, rerouted: s.rerouted });
-  const back = () => { if (s.index === 0) return ctx.go('about'); s.index -= 1; persist(); draw(); };
+  const back = () => { cancel(); if (s.index === 0) return ctx.go('about'); s.index -= 1; persist(); draw(); };
+  const next = () => { cancel(); if (s.index < last) { s.index += 1; persist(); draw(); } };
   const choose = v => {
+    settle();
     s.answers[s.index] = v;
     persist();
     draw(); // show the selection immediately
-    clearTimeout(timer);
+    pendingFrom = s.index;
     timer = setTimeout(() => {
-      if (s.index === inst.items.length - 1) { if (s.answers.every(Boolean)) { ctx.go('report'); } return; }
-      s.index += 1; persist(); draw();
+      const from = pendingFrom;
+      cancel();
+      if (from !== s.index) return;
+      if (from === last) {
+        const missing = s.answers.findIndex(a => !a);
+        if (missing === -1) return ctx.go('report');
+        s.index = missing; persist(); return draw(); // a skipped statement: take the user straight to it
+      }
+      s.index = from + 1; persist(); draw();
     }, ADVANCE_MS);
   };
 
@@ -37,7 +56,7 @@ export function render(root, ctx) {
       h('div.q-foot',
         h('button.btn.btn-ghost', { type: 'button', onclick: back }, '← Back'),
         h('span.small', 'Tip: press 1–5 to answer'),
-        s.answers[s.index] && s.index < n - 1 ? h('button.btn.btn-ghost', { type: 'button', onclick: () => { s.index += 1; persist(); draw(); } }, 'Next →')
+        s.answers[s.index] && s.index < n - 1 ? h('button.btn.btn-ghost', { type: 'button', onclick: next }, 'Next →')
           : s.index === n - 1 && s.answers.every(Boolean) ? h('button.btn.btn-primary', { type: 'button', onclick: () => ctx.go('report') }, 'See results') : h('span'))));
     const title = root.querySelector('h1');
     title.setAttribute('tabindex', '-1');
@@ -52,5 +71,5 @@ export function render(root, ctx) {
   document.addEventListener('keydown', onKey);
   persist();
   draw();
-  return () => { document.removeEventListener('keydown', onKey); clearTimeout(timer); };
+  return () => { document.removeEventListener('keydown', onKey); cancel(); };
 }

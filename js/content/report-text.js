@@ -169,7 +169,7 @@ export const reportText = {
     outcomes: [
       { text: 'Lower Neuroticism goes with greater life satisfaction and positive mood.', r: 0.52, source: 'soto2019' },
       { text: 'It also goes with feeling more financially secure.', r: 0.33, source: 'soto2019' },
-      { text: 'Higher Neuroticism goes with more anxious and low feelings.', r: 0.31, source: 'soto2019' },
+      { text: 'It goes with stronger commitment to one’s work.', r: 0.26, source: 'soto2019' },
     ],
     facets: {
       1: { name: 'Anxiety', low: 'Rarely worries or fears the worst.', high: 'Worries often and gets stressed easily.' },
