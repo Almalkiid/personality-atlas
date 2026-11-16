@@ -5,6 +5,7 @@ import { reportText } from '../content/report-text.js';
 import { sources } from '../content/sources.js';
 import { loadNorms } from '../data.js';
 import { renderCard } from '../share-card.js';
+import { renderSubmitCard } from '../submit.js';
 
 const ORDER = ['E', 'A', 'C', 'N', 'O'];
 const BAND_LABEL = { low: 'Low', average: 'Average', high: 'High' };
@@ -87,6 +88,7 @@ export function render(root, ctx) {
         h('p.small', 'Percentiles show where you sit among the comparison group: 70 means you scored higher than about 70% of them. Scores between 30 and 70 are typical.')),
       summary,
       cards,
+      renderSubmitCard(result, ctx.state),
       h('div.actions.no-print', { style: 'margin-top:24px;justify-content:space-between' },
         h('p.small', 'This is not a clinical assessment. ', h('a', { href: '#method' }, 'How this works and sources →')),
         h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start again')),

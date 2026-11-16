@@ -205,6 +205,18 @@ h1:focus { outline: none; }
 .fade-in { animation: fade .22s ease both; }
 @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+/* ---------- Submit ---------- */
+.submit-card { margin-top: 24px; }
+.input { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: var(--pa-radius-sm); border: 1px solid var(--pa-border-strong); background: var(--pa-surface); color: var(--pa-text); font: var(--pa-body)/1.4 var(--pa-font); }
+.input:focus-visible { outline: 3px solid var(--pa-accent); outline-offset: 1px; }
+textarea.input { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--pa-caption); }
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.check input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--pa-accent); flex: none; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; opacity: 0; }
+.error { color: var(--pa-red); }
+.raw summary { cursor: pointer; color: var(--pa-text-2); margin-bottom: 8px; }
+[hidden] { display: none !important; }
+
 /* ---------- Report ---------- */
 .report-hero { padding-bottom: 24px; }
 .summary { padding: 24px 24px 12px; }
