@@ -35,7 +35,15 @@ Full method, caveats and sources are on the site's **Method & sources** page.
 
 ## Privacy
 
-There are no accounts, cookies, analytics or network calls after the page loads. Answers are kept in this browser only, so you can resume, and are deleted when you start again. The PDF and the share image are both made on the device.
+There are no accounts, cookies or analytics. The test runs entirely in your browser, and answers are kept on your device so you can resume.
+
+At the end of the report you can **choose** to send your result to the researcher:
+- **What is sent:** your name (required), email (optional), age band, sex, answers and scores.
+- **Where it goes:** a private Google Sheet, through a small Apps Script in `server/`.
+- **Under-18s:** a parent or guardian's name and consent are needed.
+- **What it's used for:** the researcher's own insight only. It is never published or shared.
+
+Nothing leaves your device unless you press **Send**. The PDF and the share image are made on your device and are never uploaded.
 
 ## Run it locally
 
