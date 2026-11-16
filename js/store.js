@@ -13,7 +13,11 @@ export function createStore(storage) {
     load(instrument) {
       const s = peek();
       if (!s || s.instrumentId !== instrument.id) return null;
-      if (s.itemCount !== instrument.items.length || !Array.isArray(s.answers)) { safe(() => storage.removeItem(KEY)); return null; }
+      const n = instrument.items.length;
+      const sane = s.itemCount === n && Array.isArray(s.answers) && s.answers.length === n
+        && Number.isInteger(s.index) && s.index >= 0 && s.index < n
+        && s.answers.every(a => a === null || (Number.isInteger(a) && a >= 1 && a <= 5));
+      if (!sane) { safe(() => storage.removeItem(KEY)); return null; }
       return s;
     },
     save(state) { safe(() => storage.setItem(KEY, JSON.stringify(state))); },

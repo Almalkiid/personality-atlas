@@ -18,6 +18,12 @@ export function groupLabel(key, n) {
   return `Compared with ${fmt(n)} ${who} ${age}`;
 }
 
+export function facetDescription(ft, p) {
+  if (p < 30) return ft.low;
+  if (p > 70) return ft.high;
+  return 'Typical for your comparison group.';
+}
+
 export function computeResult(inst, answers, profile, norms) {
   const raw = scoreAnswers(inst, answers);
   const group = pickGroup(norms, profile);
@@ -37,8 +43,10 @@ export function render(root, ctx) {
   const { answers, profile } = ctx.state;
   const youth = profile.band === '10-13' || profile.band === '14-17';
   root.append(h('p.muted', 'Calculating your profile…'));
+  let cancelled = false; // set when the user leaves before the norms arrive
 
   loadNorms(inst.id).then(norms => {
+    if (cancelled) return;
     const result = computeResult(inst, answers, profile, norms);
     ctx.state.result = result;
     const dateText = result.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -70,7 +78,7 @@ export function render(root, ctx) {
         result.facets ? h('div.facets', h('h3.eyebrow', 'Facets'), inst.facets.filter(f => f.domain === d.id).map(f => {
           const p = result.facets[f.domain + f.facet];
           const ft = t.facets[f.facet];
-          return h('div.facet', h('span.name', ft.name), bar(p, `var(--pa-${d.id})`), h('span.pct', String(p)), h('span.desc', p < 50 ? ft.low : ft.high));
+          return h('div.facet', h('span.name', ft.name), bar(p, `var(--pa-${d.id})`), h('span.pct', String(p)), h('span.desc', facetDescription(ft, p)));
         })) : null,
         h('p.research', h('strong', 'In research: '), t.outcomes.map(o => o.text).join(' '), ' ', h('cite', `(Soto, 2019; average correlations r = ${Math.min(...t.outcomes.map(o => o.r)).toFixed(2)}–${Math.max(...t.outcomes.map(o => o.r)).toFixed(2)}.) These are tendencies across many people, not predictions about you.`)));
     });
@@ -98,8 +106,10 @@ export function render(root, ctx) {
     title.setAttribute('tabindex', '-1');
     title.focus({ preventScroll: true });
   }).catch(err => {
+    if (cancelled) return;
     root.replaceChildren(h('div.stack', h('h1', 'Something went wrong'), h('p.muted', `We couldn’t load the comparison data (${err.message}). Please refresh the page; your answers are saved.`)));
   });
+  return () => { cancelled = true; };
 }
 
 async function shareImage(result) {

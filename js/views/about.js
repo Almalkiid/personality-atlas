@@ -28,7 +28,7 @@ export function render(root, ctx) {
   } },
     group('age', 'Your age', AGE_OPTIONS, ctx.state.profile.band),
     group('sex', 'Sex', SEX_OPTIONS, ctx.state.profile.sex),
-    h('p.small', 'Optional. Used only to compare you with people of the same age and sex. Nothing is sent anywhere.'),
+    h('p.small', 'Optional. Used only to compare you with people of the same age and sex. Nothing is sent anywhere unless you later choose to send your results.'),
     h('div.actions', h('button.btn.btn-primary', { type: 'submit' }, 'Begin'), h('button.btn.btn-ghost', { type: 'button', onclick: () => ctx.go('home') }, 'Back')));
   root.append(h('div.fade-in.stack',
     h('p.eyebrow', `${inst.name} test · ${inst.items.length} statements`),
