@@ -1,4 +1,22 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Personality Atlas · Personality profile</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#f4f2e9;color:#223c35;font:17px/1.5 "DM Sans",system-ui,sans-serif}header,main,footer{width:min(650px,92%);margin:auto}header{padding:22px 0;border-bottom:1px solid #adb8a7;font-weight:750;display:flex;gap:10px;align-items:center}.mark{color:#a54729;font-size:26px}main{padding:clamp(24px,6vh,60px) 0}h1,h2{font:normal clamp(32px,7vw,55px)/1.08 Georgia,serif;letter-spacing:-.04em;margin:16px 0}h2{font-size:30px}p{max-width:55ch}.tag,small{font-size:13px;color:#52645a}.tag{letter-spacing:.1em;text-transform:uppercase;font-weight:700}button{appearance:none;font:inherit;padding:12px 20px;border-radius:9px;border:1px solid #426257;color:#244837;background:transparent;cursor:pointer}button.primary{background:#274f40;color:white}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible{outline:3px solid #9d4c26;outline-offset:3px}label{display:flex;align-items:center;gap:13px;padding:11px 16px;min-height:48px;background:#fffef9;border:1px solid #c8cbbd;border-radius:8px;margin:7px 0;cursor:pointer}label:has(:checked){background:#e1ebdb;border-color:#476f56}input,progress{accent-color:#355d47}nav{margin-top:20px;display:flex;justify-content:space-between}.row{padding:14px 0;border-bottom:1px solid #c5cbbb}.row strong{display:flex;justify-content:space-between;gap:10px}progress,meter{width:100%;height:10px}a{color:#385c47}footer{padding:14px 0 36px;border-top:1px solid #c5cbbb;font-size:14px}summary{cursor:pointer}fieldset{border:0;padding:0;margin:0}legend{font-size:15px}h1:focus{outline:none}
-</style><header><span class="mark" aria-hidden="true">✳</span> Personality Atlas</header><main id="app"></main><footer><details><summary>About this assessment</summary><p>The 50 public-domain Big-Five Factor Markers come from the International Personality Item Pool. Ten statements contribute to each trait. Reverse-keyed answers are flipped before adding the points.</p><a href="https://ipip.ori.org/new_ipip-50-item-scale.htm">Questionnaire</a> · <a href="https://ipip.ori.org/newBigFive5broadKey.htm">Scoring key</a> · <a href="https://ipip.ori.org/newBigFive5broadTable.htm">Research evidence</a></details></footer><script src="items.js"></script><script src="app.js"></script></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="A research-grade Big Five personality assessment. Free, private, and it runs entirely in your browser.">
+<title>Personality Atlas</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="wordmark" href="./" aria-label="Personality Atlas home"><span class="wordmark-dot" aria-hidden="true"></span>Personality Atlas</a>
+  <a class="toplink" href="#method">Method &amp; sources</a>
+</header>
+<main id="app" tabindex="-1"></main>
+<footer class="footer">
+  <p>Your answers never leave this device. Not a clinical assessment.</p>
+</footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

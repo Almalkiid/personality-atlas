@@ -1,0 +1,6 @@
+node_modules/
+raw/
+test-results/
+playwright-report/
+.superpowers/
+.DS_Store
