@@ -21,7 +21,7 @@ export function render(root, ctx) {
       h('h2', 'Welcome back'),
       h('p.muted', `You have a ${savedInst.name} test in progress: ${saved.answers.filter(Boolean).length} of ${savedInst.items.length} answered.`),
       h('div.actions',
-        h('button.btn.btn-primary', { type: 'button', onclick: () => ctx.go('question', { instrumentId: saved.instrumentId, profile: saved.profile ?? {}, answers: saved.answers, index: saved.index, rerouted: !!saved.rerouted }) }, 'Resume'),
+        h('button.btn.btn-primary', { type: 'button', onclick: () => ctx.go(saved.answers.every(Boolean) ? 'report' : 'question', { instrumentId: saved.instrumentId, profile: saved.profile ?? {}, answers: saved.answers, index: saved.index, rerouted: !!saved.rerouted }) }, 'Resume'),
         h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start over'))) : null,
     h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120)),
     h('div.trust',
