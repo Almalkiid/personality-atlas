@@ -57,7 +57,7 @@ export function render(root, ctx) {
       return h('section.card.domain-card', { 'aria-labelledby': `h-${d.id}` },
         h('div.domain-head',
           h('div', h('h2', { id: `h-${d.id}` }, t.name), h('p.small', t.alias ? `${t.oneLine} (${t.alias})` : t.oneLine)),
-          h('div', { style: 'text-align:right' }, h('div.big', String(d.percentile), h('small', 'percentile')), h(`span.chip.chip-${d.band}`, BAND_LABEL[d.band]))),
+          h('div.score', h('div.big', String(d.percentile), h('small', 'percentile')), h(`span.chip.chip-${d.band}`, BAND_LABEL[d.band]))),
         bar(d.percentile, `var(--pa-${d.id})`),
         h('p.lead', t.bands[d.band][youth ? 'youth' : 'adult']),
         side ? h('div.cols',
@@ -76,8 +76,7 @@ export function render(root, ctx) {
 
     const actions = h('div.sticky-actions.no-print',
       h('button.btn.btn-primary', { type: 'button', onclick: () => window.print() }, 'Save as PDF'),
-      h('button.btn', { type: 'button', onclick: () => shareImage(result) }, 'Share image'),
-      h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start again'));
+      h('button.btn', { type: 'button', onclick: () => shareImage(result) }, 'Share image'));
 
     root.replaceChildren(h('div.fade-in',
       h('header.report-hero.stack',
@@ -88,7 +87,9 @@ export function render(root, ctx) {
         h('p.small', 'Percentiles show where you sit among the comparison group: 70 means you scored higher than about 70% of them. Scores between 30 and 70 are typical.')),
       summary,
       cards,
-      h('p.small', { style: 'margin-top:24px' }, 'This is not a clinical assessment. ', h('a', { href: '#method' }, 'How this works and sources →')),
+      h('div.actions.no-print', { style: 'margin-top:24px;justify-content:space-between' },
+        h('p.small', 'This is not a clinical assessment. ', h('a', { href: '#method' }, 'How this works and sources →')),
+        h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start again')),
       h('p.print-only.small', `Personality Atlas · ${sources.ipip.url} · Results computed on this device.`),
       actions));
     const title = root.querySelector('h1');

@@ -4,7 +4,7 @@ import { BANDS } from '../norms.js';
 const AGE_OPTIONS = [['under10', 'Under 10'], ...BANDS.map(b => [b, b.replace('-', '–')]), ['', 'Prefer not to say']];
 const SEX_OPTIONS = [['f', 'Female'], ['m', 'Male'], ['', 'Prefer not to say']];
 
-const group = (name, legend, options, current) => h('fieldset.field', { style: 'border:0;padding:0;margin:0' },
+const group = (name, legend, options, current) => h('fieldset.field.plain-fieldset',
   h('legend', { style: 'font-weight:600;margin-bottom:8px' }, legend),
   h('div.segmented', options.map(([value, label]) => h('label',
     h('input', { type: 'radio', name, value, 'aria-label': label, checked: (current ?? '') === value }),

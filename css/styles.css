@@ -127,6 +127,7 @@ h1:focus { outline: none; }
 }
 .btn {
   appearance: none;
+  white-space: nowrap;
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 48px; padding: 0 22px;
   border-radius: 999px;
@@ -215,6 +216,7 @@ h1:focus { outline: none; }
 .legend { display: flex; justify-content: space-between; margin: 10px 0 0 162px; margin-right: 56px; font-size: var(--pa-micro); color: var(--pa-text-3); }
 .domain-card { margin-top: 20px; }
 .domain-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.domain-head .score { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
 .domain-head .big { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
 .domain-head .big small { font-size: var(--pa-caption); color: var(--pa-text-3); font-weight: 500; margin-left: 4px; }
 .domain-card .lead { margin-top: 12px; font-size: var(--pa-headline); }
@@ -234,7 +236,7 @@ h1:focus { outline: none; }
 .method p, .method li { color: var(--pa-text-2); }
 .method ol, .method ul { padding-left: 20px; }
 .method li + li { margin-top: 6px; }
-.sticky-actions { position: sticky; bottom: 12px; margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 10px; border-radius: 999px; background: color-mix(in srgb, var(--pa-surface) 80%, transparent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--pa-border); box-shadow: var(--pa-shadow); }
+.sticky-actions { position: sticky; bottom: 16px; width: fit-content; max-width: 100%; margin: 28px auto 0; display: flex; gap: 8px; justify-content: center; padding: 8px; border-radius: 999px; background: color-mix(in srgb, var(--pa-surface) 92%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--pa-border); box-shadow: var(--pa-shadow); }
 
 @media (max-width: 520px) {
   .bar-row { grid-template-columns: 1fr 44px; }
@@ -243,7 +245,10 @@ h1:focus { outline: none; }
   .legend { margin-left: 0; margin-right: 56px; }
   .facet { grid-template-columns: 1fr 80px 34px; }
   .card { padding: 20px; }
+  .domain-head .score { flex-direction: row; align-items: center; gap: 12px; }
+  .sticky-actions .btn { min-height: 44px; padding: 0 18px; }
 }
+.plain-fieldset { border: 0; padding: 0; margin-left: 0; margin-right: 0; margin-bottom: 0; min-width: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
