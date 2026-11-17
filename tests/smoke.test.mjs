@@ -2,9 +2,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-test('package version is 0.3.0', () => {
+test('package version is 0.3.1', () => {
   const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url)));
-  assert.equal(pkg.version, '0.3.0');
+  assert.equal(pkg.version, '0.3.1');
 });
 
 test('index.html loads the app as a module and the stylesheet', () => {
