@@ -4,7 +4,20 @@ export function render(root, ctx) {
   const saved = ctx.store.peek();
   const savedInst = saved && ctx.instruments[saved.instrumentId];
   const resume = savedInst && ctx.store.load(savedInst) && saved.answers.some(v => v);
-  const card = inst => h('button.card.test-card', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('about', { instrumentId: inst.id, profile: {}, answers: Array(inst.items.length).fill(null), index: 0, rerouted: false }); } },
+  const start = inst => { ctx.store.clear(); ctx.go('about', { instrumentId: inst.id, profile: {}, answers: Array(inst.items.length).fill(null), index: 0, rerouted: false }); };
+  // Starting a new test while one is in progress asks first (inline, never window.confirm).
+  const askThenStart = inst => {
+    if (!resume) return start(inst);
+    const slot = root.querySelector('#confirm-slot');
+    slot.replaceChildren(h('div.card.stack', { style: 'margin-bottom:16px', role: 'alertdialog', 'aria-labelledby': 'confirm-h' },
+      h('h2', { id: 'confirm-h' }, 'You have a test in progress'),
+      h('p.muted', `Starting the ${inst.name} test will discard your ${savedInst.name} answers so far.`),
+      h('div.actions',
+        h('button.btn.btn-primary', { type: 'button', onclick: () => start(inst) }, 'Discard and start'),
+        h('button.btn', { type: 'button', onclick: () => slot.replaceChildren() }, 'Keep my progress'))));
+    slot.querySelector('button').focus();
+  };
+  const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
     h('div.meta', h('span.chip', `${inst.items.length} statements`), h('span.chip', `About ${inst.minutes} min`)),
     h('h2', `${inst.name} test`),
     h('p.muted', inst.id === 'ipip50'
@@ -16,7 +29,8 @@ export function render(root, ctx) {
     h('section.hero.stack',
       h('p.eyebrow', 'Big Five personality assessment'),
       h('h1', 'Understand how you think, feel and act.'),
-      h('p.lede', 'A research-grade personality profile, compared with hundreds of thousands of real people. Free, private, and it never leaves your device.')),
+      h('p.lede', 'A research-grade personality profile, compared with hundreds of thousands of real people. Free, private, and your answers stay on your device unless you choose to share them.')),
+    h('div', { id: 'confirm-slot' }),
     resume ? h('div.card.stack', { style: 'margin-bottom:16px' },
       h('h2', 'Welcome back'),
       h('p.muted', `You have a ${savedInst.name} test in progress: ${saved.answers.filter(Boolean).length} of ${savedInst.items.length} answered.`),
@@ -27,5 +41,5 @@ export function render(root, ctx) {
     h('div.trust',
       h('div', h('strong', 'Research-based'), 'Public-domain questionnaires from the International Personality Item Pool.'),
       h('div', h('strong', 'Real comparisons'), 'Percentiles from published datasets, matched to your age and sex if you choose.'),
-      h('div', h('strong', 'Private by design'), 'No accounts, no tracking. Your answers stay in this browser.'))));
+      h('div', h('strong', 'Private by design'), 'No accounts, no tracking. Your answers stay in this browser unless you choose to send them.'))));
 }

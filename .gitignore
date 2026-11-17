@@ -5,3 +5,4 @@ playwright-report/
 .superpowers/
 .DS_Store
 .local/
+server/.clasp.json

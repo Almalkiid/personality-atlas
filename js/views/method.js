@@ -33,7 +33,7 @@ export function render(root, ctx) {
       h('li', 'Self-reports are less reliable before the mid-teens; ages 10–13 see a note in their report. Under 10s are not tested.'),
       h('li', 'Your results reflect how you see yourself today. Personality changes gradually across life.')),
     h('h2', 'Privacy'),
-    h('p', 'There are no accounts, cookies or analytics. Your answers are stored only in this browser so you can resume, and are deleted when you choose “Start again”.'),
+    h('p', 'There are no accounts, cookies or analytics. Your answers are stored only in this browser so you can resume, and are deleted when you choose “Start again”. At the end of the report you may choose to send your name (required), email (optional), age band, sex, answers and scores to the researcher’s private spreadsheet. Nothing is sent unless you press Send; under-18s need a parent or guardian’s consent. The results are used only for the researcher’s own insight and are not published or shared.'),
     h('h2', 'Sources'),
     h('ol', Object.keys(sources).map(k => h('li', cite(k)))),
     h('div.actions', h('button.btn', { type: 'button', onclick: () => ctx.go('home') }, '← Back to start'))));
