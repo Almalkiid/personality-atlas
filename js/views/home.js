@@ -17,19 +17,26 @@ export function render(root, ctx) {
         h('button.btn', { type: 'button', onclick: () => slot.replaceChildren() }, 'Keep my progress'))));
     slot.querySelector('button').focus();
   };
+  const quick = inst => inst.id === 'ipip50';
+  // Decorative mini chart: five trait bars; the In-depth card splits each bar into its six facets.
+  const bars = inst => h('div.mini-bars' + (quick(inst) ? '' : '.faceted'), { 'aria-hidden': 'true' },
+    ['E', 'A', 'C', 'N', 'O'].map((k, i) => h('span', { style: `--h:${[55, 85, 40, 70, 100][i]}%;--c:var(--pa-${k})` })));
   const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
-    h('div.meta', h('span.chip', `${inst.items.length} statements`), h('span.chip', `About ${inst.minutes} min`)),
-    h('h2', `${inst.name} test`),
-    h('p.muted', inst.id === 'ipip50'
-      ? 'Your five broad traits, compared with people like you. The classic 50-item IPIP marker set.'
-      : 'Your five traits and the 30 facets beneath them. Johnson’s IPIP-NEO-120, used in research worldwide.'),
-    h('span.go', 'Start →'));
+    h('div.test-top',
+      h('div.count', h('span.num', String(inst.items.length)), h('span.unit', 'statements')),
+      h('span.chip', `${inst.minutes} min`)),
+    bars(inst),
+    h('div.test-text',
+      h('h2', `${inst.name} test`),
+      h('p.muted', quick(inst) ? 'Your five core traits.' : 'Your five traits and the 30 facets beneath them.')),
+    h('span.go' + (quick(inst) ? '.go-primary' : ''), 'Start', h('span.arrow', { 'aria-hidden': 'true' }, '→')));
 
   root.append(h('div.fade-in',
     h('section.hero.stack',
-      h('p.eyebrow', 'Big Five personality assessment'),
-      h('h1', 'Understand how you think, feel and act.'),
-      h('p.lede', 'A research-grade personality profile, compared with hundreds of thousands of real people. Free, private, and your answers stay on your device unless you choose to share them.')),
+      h('p.eyebrow', h('span.eyebrow-dot', { 'aria-hidden': 'true' }), 'Big Five personality assessment'),
+      h('h1', 'Understand how you ', h('span.grad', 'think, feel and act.')),
+      h('p.lede', 'A research-grade profile, compared with hundreds of thousands of real people.'),
+      h('ul.pills', ['Free', 'No sign-up', 'Private'].map(t => h('li', t)))),
     h('div', { id: 'confirm-slot' }),
     resume ? h('div.card.stack', { style: 'margin-bottom:16px' },
       h('h2', 'Welcome back'),
@@ -39,7 +46,7 @@ export function render(root, ctx) {
         h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start over'))) : null,
     h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120)),
     h('div.trust',
-      h('div', h('strong', 'Research-based'), 'Public-domain questionnaires from the International Personality Item Pool.'),
-      h('div', h('strong', 'Real comparisons'), 'Percentiles from published datasets, matched to your age and sex if you choose.'),
-      h('div', h('strong', 'Private by design'), 'No accounts, no tracking. Your answers stay in this browser unless you choose to send them.'))));
+      h('div', h('span.ico.ico-research', { 'aria-hidden': 'true' }), h('div', h('strong', 'Research-based'), 'Public-domain IPIP questionnaires.')),
+      h('div', h('span.ico.ico-compare', { 'aria-hidden': 'true' }), h('div', h('strong', 'Real comparisons'), 'Matched to your age and sex if you choose.')),
+      h('div', h('span.ico.ico-private', { 'aria-hidden': 'true' }), h('div', h('strong', 'Private by design'), 'Nothing is sent unless you choose.')))));
 }
