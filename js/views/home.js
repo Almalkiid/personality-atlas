@@ -19,7 +19,7 @@ export function render(root, ctx) {
   };
   const quick = inst => inst.id === 'ipip50';
   // The five traits as icons with one plain word each; full trait name in the tooltip.
-  const TRAITS = [['E', 'Social', 'Extraversion'], ['A', 'Kind', 'Agreeableness'], ['C', 'Organised', 'Conscientiousness'], ['N', 'Emotions', 'Neuroticism'], ['O', 'Curious', 'Openness']];
+  const TRAITS = [['E', 'Outgoing', 'Extraversion'], ['A', 'Friendly', 'Agreeableness'], ['C', 'Organised', 'Conscientiousness'], ['N', 'Sensitive', 'Neuroticism'], ['O', 'Curious', 'Openness']];
   const traits = () => h('ul.traits', TRAITS.map(([k, word, name]) => h('li', { title: name }, h('i.t-' + k, { 'aria-hidden': 'true' }), word)));
   const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
     h('div.test-top',
