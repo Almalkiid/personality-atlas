@@ -35,7 +35,6 @@ export function render(root, ctx) {
     h('section.hero.stack',
       h('p.eyebrow', h('span.eyebrow-dot', { 'aria-hidden': 'true' }), 'Big Five personality assessment'),
       h('h1', 'Understand how you ', h('span.grad', 'think, feel and act.')),
-      h('p.lede', 'A research-grade profile, compared with hundreds of thousands of real people.'),
       h('ul.pills', ['Free', 'No sign-up', 'Private'].map(t => h('li', t)))),
     h('div', { id: 'confirm-slot' }),
     resume ? h('div.card.stack', { style: 'margin-bottom:16px' },
@@ -44,9 +43,5 @@ export function render(root, ctx) {
       h('div.actions',
         h('button.btn.btn-primary', { type: 'button', onclick: () => ctx.go(saved.answers.every(Boolean) ? 'report' : 'question', { instrumentId: saved.instrumentId, profile: saved.profile ?? {}, answers: saved.answers, index: saved.index, rerouted: !!saved.rerouted }) }, 'Resume'),
         h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start over'))) : null,
-    h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120)),
-    h('div.trust',
-      h('div', h('span.ico.ico-research', { 'aria-hidden': 'true' }), h('div', h('strong', 'Research-based'), 'Public-domain IPIP questionnaires.')),
-      h('div', h('span.ico.ico-compare', { 'aria-hidden': 'true' }), h('div', h('strong', 'Real comparisons'), 'Matched to your age and sex if you choose.')),
-      h('div', h('span.ico.ico-private', { 'aria-hidden': 'true' }), h('div', h('strong', 'Private by design'), 'Nothing is sent unless you choose.')))));
+    h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120))));
 }

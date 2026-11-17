@@ -28,8 +28,7 @@ test('starting another test asks before discarding progress', async ({ page }) =
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('A little about you');
 });
 
-test('privacy wording says data leaves only if you choose to send', async ({ page }) => {
+test('home has no outdated "never leave" privacy wording', async ({ page }) => {
   await page.goto('./');
-  await expect(page.locator('footer')).toContainText('unless you choose to send them');
   await expect(page.getByText(/never leave/)).toHaveCount(0);
 });
