@@ -1,4 +1,5 @@
 import { h } from '../dom.js';
+import { reportText } from '../content/report-text.js';
 
 export function render(root, ctx) {
   const saved = ctx.store.peek();
@@ -19,8 +20,7 @@ export function render(root, ctx) {
   };
   const quick = inst => inst.id === 'ipip50';
   // The five traits as icons with one plain word each; full trait name in the tooltip.
-  const TRAITS = [['E', 'Outgoing', 'Extraversion'], ['A', 'Friendly', 'Agreeableness'], ['C', 'Organised', 'Conscientiousness'], ['N', 'Sensitive', 'Neuroticism'], ['O', 'Curious', 'Openness']];
-  const traits = () => h('ul.traits', TRAITS.map(([k, word, name]) => h('li', { title: name }, h('i.t-' + k, { 'aria-hidden': 'true' }), word)));
+  const traits = () => h('ul.traits', ['E', 'A', 'C', 'N', 'O'].map(k => h('li', { title: reportText[k].name }, h('i.ti.t-' + k, { 'aria-hidden': 'true' }), reportText[k].word)));
   const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
     h('div.test-top',
       h('div.count', h('span.num', String(inst.items.length)), h('span.unit', 'statements')),
