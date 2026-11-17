@@ -18,14 +18,14 @@ export function render(root, ctx) {
     slot.querySelector('button').focus();
   };
   const quick = inst => inst.id === 'ipip50';
-  // Decorative mini chart: five trait bars; the In-depth card splits each bar into its six facets.
-  const bars = inst => h('div.mini-bars' + (quick(inst) ? '' : '.faceted'), { 'aria-hidden': 'true' },
-    ['E', 'A', 'C', 'N', 'O'].map((k, i) => h('span', { style: `--h:${[55, 85, 40, 70, 100][i]}%;--c:var(--pa-${k})` })));
+  // The five traits as icons with one plain word each; full trait name in the tooltip.
+  const TRAITS = [['E', 'Social', 'Extraversion'], ['A', 'Kind', 'Agreeableness'], ['C', 'Organised', 'Conscientiousness'], ['N', 'Emotions', 'Neuroticism'], ['O', 'Curious', 'Openness']];
+  const traits = () => h('ul.traits', TRAITS.map(([k, word, name]) => h('li', { title: name }, h('i.t-' + k, { 'aria-hidden': 'true' }), word)));
   const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
     h('div.test-top',
       h('div.count', h('span.num', String(inst.items.length)), h('span.unit', 'statements')),
       h('span.chip', `${inst.minutes} min`)),
-    bars(inst),
+    traits(),
     h('div.test-text',
       h('h2', `${inst.name} test`),
       h('p.muted', quick(inst) ? 'Your five core traits.' : 'Your five traits and the 30 facets beneath them.')),
