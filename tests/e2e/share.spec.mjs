@@ -21,3 +21,13 @@ test('print media hides buttons and keeps every domain card', async ({ page }) =
   const pdf = await page.pdf({ format: 'A4' });
   expect(pdf.length).toBeGreaterThan(20000);
 });
+
+test('Save as PDF opens the collapsed research text so it prints', async ({ page }) => {
+  await openReport(page, { profile: { band: '25-34' } });
+  await page.evaluate(() => { window.print = () => {}; });
+  const research = page.locator('details.research');
+  await expect(research).toHaveCount(5);
+  await expect(page.locator('details.research[open]')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Save as PDF' }).click();
+  await expect(page.locator('details.research[open]')).toHaveCount(5);
+});

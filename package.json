@@ -1,6 +1,6 @@
 {
   "name": "personality-atlas",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "A research-grade Big Five personality assessment that runs entirely in your browser.",
   "type": "module",

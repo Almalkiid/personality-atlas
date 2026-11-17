@@ -6,6 +6,7 @@
 export const reportText = {
   E: {
     name: 'Extraversion',
+    word: 'Outgoing',
     oneLine: 'How much you seek out people, activity and excitement.',
     bands: {
       low: {
@@ -50,6 +51,7 @@ export const reportText = {
 
   A: {
     name: 'Agreeableness',
+    word: 'Friendly',
     oneLine: 'How much you prioritise getting along with and caring for others.',
     bands: {
       low: {
@@ -94,6 +96,7 @@ export const reportText = {
 
   C: {
     name: 'Conscientiousness',
+    word: 'Organised',
     oneLine: 'How organised, reliable and goal-directed you are.',
     bands: {
       low: {
@@ -138,6 +141,7 @@ export const reportText = {
 
   N: {
     name: 'Neuroticism',
+    word: 'Sensitive',
     alias: 'also called Negative Emotionality',
     oneLine: 'How strongly you tend to feel stress, worry and other negative emotions.',
     bands: {
@@ -183,6 +187,7 @@ export const reportText = {
 
   O: {
     name: 'Openness to Experience',
+    word: 'Curious',
     oneLine: 'How much you are drawn to ideas, imagination, art and new experiences.',
     bands: {
       low: {

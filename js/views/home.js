@@ -1,4 +1,5 @@
 import { h } from '../dom.js';
+import { reportText } from '../content/report-text.js';
 
 export function render(root, ctx) {
   const saved = ctx.store.peek();
@@ -17,19 +18,24 @@ export function render(root, ctx) {
         h('button.btn', { type: 'button', onclick: () => slot.replaceChildren() }, 'Keep my progress'))));
     slot.querySelector('button').focus();
   };
+  const quick = inst => inst.id === 'ipip50';
+  // The five traits as icons with one plain word each; full trait name in the tooltip.
+  const traits = () => h('ul.traits', ['E', 'A', 'C', 'N', 'O'].map(k => h('li', { title: reportText[k].name }, h('i.ti.t-' + k, { 'aria-hidden': 'true' }), reportText[k].word)));
   const card = inst => h('button.card.test-card', { type: 'button', onclick: () => askThenStart(inst) },
-    h('div.meta', h('span.chip', `${inst.items.length} statements`), h('span.chip', `About ${inst.minutes} min`)),
-    h('h2', `${inst.name} test`),
-    h('p.muted', inst.id === 'ipip50'
-      ? 'Your five broad traits, compared with people like you. The classic 50-item IPIP marker set.'
-      : 'Your five traits and the 30 facets beneath them. Johnson’s IPIP-NEO-120, used in research worldwide.'),
-    h('span.go', 'Start →'));
+    h('div.test-top',
+      h('div.count', h('span.num', String(inst.items.length)), h('span.unit', 'statements')),
+      h('span.chip', `${inst.minutes} min`)),
+    traits(),
+    h('div.test-text',
+      h('h2', `${inst.name} test`),
+      h('p.muted', quick(inst) ? 'Your five core traits.' : 'Your five traits and the 30 facets beneath them.')),
+    h('span.go' + (quick(inst) ? '.go-primary' : ''), 'Start', h('span.arrow', { 'aria-hidden': 'true' }, '→')));
 
   root.append(h('div.fade-in',
     h('section.hero.stack',
-      h('p.eyebrow', 'Big Five personality assessment'),
-      h('h1', 'Understand how you think, feel and act.'),
-      h('p.lede', 'A research-grade personality profile, compared with hundreds of thousands of real people. Free, private, and your answers stay on your device unless you choose to share them.')),
+      h('p.eyebrow', h('span.eyebrow-dot', { 'aria-hidden': 'true' }), 'Big Five personality assessment'),
+      h('h1', 'Understand how you ', h('span.grad', 'think, feel and act.')),
+      h('ul.pills', ['Free', 'No sign-up', 'Private'].map(t => h('li', t)))),
     h('div', { id: 'confirm-slot' }),
     resume ? h('div.card.stack', { style: 'margin-bottom:16px' },
       h('h2', 'Welcome back'),
@@ -37,9 +43,5 @@ export function render(root, ctx) {
       h('div.actions',
         h('button.btn.btn-primary', { type: 'button', onclick: () => ctx.go(saved.answers.every(Boolean) ? 'report' : 'question', { instrumentId: saved.instrumentId, profile: saved.profile ?? {}, answers: saved.answers, index: saved.index, rerouted: !!saved.rerouted }) }, 'Resume'),
         h('button.btn.btn-ghost', { type: 'button', onclick: () => { ctx.store.clear(); ctx.go('home'); } }, 'Start over'))) : null,
-    h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120)),
-    h('div.trust',
-      h('div', h('strong', 'Research-based'), 'Public-domain questionnaires from the International Personality Item Pool.'),
-      h('div', h('strong', 'Real comparisons'), 'Percentiles from published datasets, matched to your age and sex if you choose.'),
-      h('div', h('strong', 'Private by design'), 'No accounts, no tracking. Your answers stay in this browser unless you choose to send them.'))));
+    h('div.test-grid', card(ctx.instruments.ipip50), card(ctx.instruments.ipipneo120))));
 }
